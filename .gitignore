@@ -1,0 +1,6 @@
+*.pyc
+build/*
+tom-thumb.bdf
+images/*
+weather.json
+*.cpython*
