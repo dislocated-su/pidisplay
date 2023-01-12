@@ -142,16 +142,11 @@ class PiDisplay(MatrixBase):
 
         i: cython.int = -16
         j: cython.int = 0
-        x1: cython.int = i
-        x2: cython.int = i + 16
-        x3: cython.int = i + 32
-        x4: cython.int = i + 48
-        x5: cython.int = i + 64
+
+        cdef int glyphPos[5]
+        glyphPos[:] = [-16, 0, 16, 32, 48]
 
         while not self.kill_now:
-
-
-            # serve_once()
 
             offscreen_canvas.Clear()
 
@@ -160,7 +155,7 @@ class PiDisplay(MatrixBase):
             clock_time = now.strftime("%H:%M:%S")
 
             cDay = now.strftime("%A")
-            cDate = now.strftime("%B %d")
+            cDate = now.strftime("%d %b")
             
             # Time
             graphics.DrawText(offscreen_canvas, self.resources.clockFont, 0, 14, colour, clock_time)
@@ -191,35 +186,21 @@ class PiDisplay(MatrixBase):
             graphics.DrawText(offscreen_canvas, self.resources.smallFont, 1, 48, self.resources.whiteColor, str(self.weatherData['desc'], encoding='utf-8'))
 
 
-            offscreen_canvas.SetImage(self.resources.images['dynamite'].convert('RGB'), x1,51)
-            offscreen_canvas.SetImage(self.resources.images['dynamite'].convert('RGB'), x2,51)
-            offscreen_canvas.SetImage(self.resources.images['dynamite'].convert('RGB'), x3,51)
-            offscreen_canvas.SetImage(self.resources.images['dynamite'].convert('RGB'), x4,51)
-            offscreen_canvas.SetImage(self.resources.images['dynamite'].convert('RGB'), x5,51)
-            
+            for mod in range(5):
+                offscreen_canvas.SetImage(self.resources.images['christmas'].convert('RGB'), glyphPos[mod],51)
+
             j += 1
             if j == 20:
                 j = 0
                 i += 1
                 
-                x1 = i
-                x2 = i + 16
-                x3 = i + 32
-                x4 = i + 48
-                x5 = i + 64
+                for mod in range(5):
+                    glyphPos[mod] = i + (mod * 16)
 
-                if x1 == 0:
+                if glyphPos[0] == 0:
                     i = -16
-
 
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
         offscreen_canvas.Clear()
         offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
-
-
-# Main function
-if __name__ == "__main__":
-  display = PiDisplay()
-  if (not display.process()):
-      display.print_help()
