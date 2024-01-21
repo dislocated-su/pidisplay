@@ -8,9 +8,13 @@ This project is a WIP.
 
 Compile cython with:
 ```
-python setup.py build_ext --inplace
+make build
 ```
-Run manually (root preferred):
+Launch with:
 ```
-sudo python run.py
+make run
+```
+Launch inside an emulator with:
+```
+make emu
 ```
