@@ -1,4 +1,10 @@
 import signal
+
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/build'))
+
 from PiDisplay import PiDisplay
 
 if __name__ == "__main__":

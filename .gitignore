@@ -1,6 +1,5 @@
-*.pyc
-build/*
+__pycache__
+build
+images
 tom-thumb.bdf
-images/*
 weather.json
-*.cpython*
